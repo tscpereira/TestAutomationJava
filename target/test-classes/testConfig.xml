@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<configuration>
+    <testResultPath>C:\\Users\\Thiago.Pereira\\Desktop\\</testResultPath>
+    <chromdeDriverPath>src\\test\\resources\\chromedriver.exe</chromdeDriverPath>
+    <url>http://sampleapp.tricentis.com/101/app.php</url>
+</configuration>
