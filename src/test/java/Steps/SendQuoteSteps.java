@@ -33,7 +33,6 @@ public class SendQuoteSteps {
     public void testSetup(Scenario scenario) throws ParserConfigurationException, SAXException, IOException {
         Collection<String> tags = scenario.getSourceTagNames();
         ReadFiles read = new ReadFiles();
-        url = read.ReadConfigFile("url");
         resultPath = read.ReadConfigFile("testResultPath");
         String driverPath = read.ReadConfigFile("chromdeDriverPath");
 
