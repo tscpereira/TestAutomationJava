@@ -1,6 +1,7 @@
 package Steps;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 import PageObjects.*;
 import TestTools.ReadFiles;
@@ -29,26 +30,31 @@ public class SendQuoteSteps {
     private String url;
 
     @Before
-    public void testSetup() throws ParserConfigurationException, SAXException, IOException {
+    public void testSetup(Scenario scenario) throws ParserConfigurationException, SAXException, IOException {
+        Collection<String> tags = scenario.getSourceTagNames();
         ReadFiles read = new ReadFiles();
         url = read.ReadConfigFile("url");
         resultPath = read.ReadConfigFile("testResultPath");
         String driverPath = read.ReadConfigFile("chromdeDriverPath");
 
-        System.setProperty("webdriver.chrome.driver", driverPath);
-        driver = new ChromeDriver();
-        utils = new Utils(driver);
-        vehicle = new VehiclePage(driver);
-        insurant = new InsurantPage(driver);
-        product = new ProductPage(driver);
-        price = new PricePage(driver);
-        quote = new QuotePage(driver);
-        driver.manage().window().maximize();
+        if (tags.contains("selenium")){
+            System.setProperty("webdriver.chrome.driver", driverPath);
+            driver = new ChromeDriver();
+            utils = new Utils(driver);
+            vehicle = new VehiclePage(driver);
+            insurant = new InsurantPage(driver);
+            product = new ProductPage(driver);
+            price = new PricePage(driver);
+            quote = new QuotePage(driver);
+            driver.manage().window().maximize();
+        }
     }
 
     @After
     public void cleanup(){
-        driver.quit();
+        if (driver != null){
+            driver.quit();
+        }
         System.out.println("Test evidences saved at '" + resultPath + "'");
     }
 
