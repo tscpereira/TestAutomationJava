@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <configuration>
     <testResultPath>C:\\</testResultPath>
-    <chromdeDriverPath>src\\test\\resources\\chromedriver.exe</chromdeDriverPath>
+    <chromeDriverPath>src\\test\\resources\\chromedriver.exe</chromeDriverPath>
     <url>http://sampleapp.tricentis.com/101/app.php</url>
 </configuration>

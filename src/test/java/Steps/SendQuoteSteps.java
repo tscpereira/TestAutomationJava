@@ -1,7 +1,6 @@
 package Steps;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.List;
 import PageObjects.*;
 import TestTools.ReadFiles;
@@ -11,42 +10,35 @@ import io.cucumber.java.*;
 import io.cucumber.java.en.*;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 
 
 public class SendQuoteSteps {
 
-    private WebDriver driver;
     private Customer testCustomer;
-    private VehiclePage vehicle;
-    private InsurantPage insurant;
-    private ProductPage product;
-    private PricePage price;
-    private QuotePage quote;
-    private Utils utils;
-    private String resultPath;
-    private String url;
+    private final VehiclePage vehicle;
+    private final InsurantPage insurant;
+    private final ProductPage product;
+    private final PricePage price;
+    private final QuotePage quote;
+    private final Utils utils;
+    private final String resultPath;
+    private final WebDriver driver;
+    private final ReadFiles read;
 
-    @Before
-    public void testSetup(Scenario scenario) throws ParserConfigurationException, SAXException, IOException {
-        Collection<String> tags = scenario.getSourceTagNames();
-        ReadFiles read = new ReadFiles();
+    public SendQuoteSteps (CommonSteps commonSteps) throws ParserConfigurationException, SAXException, IOException {
+        read = new ReadFiles();
         resultPath = read.ReadConfigFile("testResultPath");
-        String driverPath = read.ReadConfigFile("chromdeDriverPath");
-
-        if (tags.contains("selenium")){
-            System.setProperty("webdriver.chrome.driver", driverPath);
-            driver = new ChromeDriver();
-            utils = new Utils(driver);
-            vehicle = new VehiclePage(driver);
-            insurant = new InsurantPage(driver);
-            product = new ProductPage(driver);
-            price = new PricePage(driver);
-            quote = new QuotePage(driver);
-            driver.manage().window().maximize();
-        }
+        String driverPath = read.ReadConfigFile("chromeDriverPath");
+        System.setProperty("webdriver.chrome.driver", driverPath);
+        driver = commonSteps.getDriver();
+        utils = new Utils(driver);
+        vehicle = new VehiclePage(driver);
+        insurant = new InsurantPage(driver);
+        product = new ProductPage(driver);
+        price = new PricePage(driver);
+        quote = new QuotePage(driver);
     }
 
     @After
@@ -58,8 +50,9 @@ public class SendQuoteSteps {
     }
 
     @Given("I'm in the Vehicle Data page")
-    public void im_in_the_vehicle_page(){
-        driver.get(url);
+    public void im_in_the_vehicle_page() throws ParserConfigurationException, SAXException, IOException {
+        driver.get(read.ReadConfigFile("url"));
+        driver.manage().window().maximize();
     }
 
     @And("I have the following customer information")
